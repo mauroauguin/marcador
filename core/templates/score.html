@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Padel Tour Scoreboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .tournament-info {
+            display: flex;
+            align-items: center;
+        }
+        .victoria-badge {
+            background-color: #00a86b;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            margin-right: 10px;
+        }
+        .coin-icon {
+            width: 24px;
+            height: 24px;
+            background-color: #ffd700;
+            border-radius: 50%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .score {
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            padding: 5px 10px;
+            display: inline-block;
+            min-width: 20px;
+            text-align: center;
+        }
+        .footer {
+            background-color: #f2f2f2;
+            padding: 15px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">World Padel Tour</div>
+            <div class="tournament-info">
+                <span class="victoria-badge">Victoria</span>
+                <div class="coin-icon"></div>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>QUALY</th>
+                    <th>SET 1</th>
+                    <th>SET 2</th>
+                    <th>SET 3</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ANTONIO LUQUE</td>
+                    <td><span class="score">0</span></td>
+                    <td><span class="score">0</span></td>
+                    <td><span class="score">0</span></td> 
+                </tr>
+                <tr>
+                    <td>MIGUEL YANGUAS DIEZ</td>
+                    <td><span class="score">4</span></td>
+                    <td><span class="score">0</span></td>
+                    <td><span class="score">0</span></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="footer">
+            <div>TIEMPO DE PARTIDO: 24:06</div>
+            <div>LACOSTE WATCHES</div>
+        </div>
+    </div>
+    <script>
+        const scoreSocket = new WebSocket(
+            'ws://' + '192.168.8.112:8000' + '/ws/score/'
+        );
+
+        // ... resto del código ...
+    </script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Padel Tour Scoreboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .tournament-info {
+            display: flex;
+            align-items: center;
+        }
+        .victoria-badge {
+            background-color: #00a86b;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            margin-right: 10px;
+        }
+        .coin-icon {
+            width: 24px;
+            height: 24px;
+            background-color: #ffd700;
+            border-radius: 50%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .score {
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            padding: 5px 10px;
+            display: inline-block;
+            min-width: 20px;
+            text-align: center;
+        }
+        .footer {
+            background-color: #f2f2f2;
+            padding: 15px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">World Padel Tour</div>
+            <div class="tournament-info">
+                <span class="victoria-badge">Victoria</span>
+                <div class="coin-icon"></div>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>QUALY</th>
+                    <th>SET 1</th>
+                    <th>SET 2</th>
+                    <th>SET 3</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="jugador1">{{ marcador.jugador1 }}</td>
+                    <td><span class="score" id="set1_jugador1">{{ marcador.set1_jugador1 }}</span></td>
+                    <td><span class="score" id="set2_jugador1">{{ marcador.set2_jugador1 }}</span></td>
+                    <td><span class="score" id="set3_jugador1">{{ marcador.set3_jugador1 }}</span></td>
+                </tr>
+                <tr>
+                    <td id="jugador2">{{ marcador.jugador2 }}</td>
+                    <td><span class="score" id="set1_jugador2">{{ marcador.set1_jugador2 }}</span></td>
+                    <td><span class="score" id="set2_jugador2">{{ marcador.set2_jugador2 }}</span></td>
+                    <td><span class="score" id="set3_jugador2">{{ marcador.set3_jugador2 }}</span></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="footer">
+            <div id="match-time">TIEMPO DE PARTIDO: 00:00</div>
+            <div>LACOSTE WATCHES</div>
+        </div>
+    </div>
+
+    <script>
+        const socket = new WebSocket('ws://' + window.location.host + '/ws/marcador/');
+        let timerInterval;
+        let seconds = 0;
+
+        function updateTimer() {
+            seconds++;
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            document.getElementById('match-time').textContent = 
+                `TIEMPO DE PARTIDO: ${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        socket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            if (data.action === 'toggle_timer') {
+                if (data.isRunning) {
+                    timerInterval = setInterval(updateTimer, 1000);
+                } else {
+                    clearInterval(timerInterval);
+                }
+            } else if (data.action === 'reset_scores') {
+                // Reiniciar todas las puntuaciones a 0
+                for (let set = 1; set <= 3; set++) {
+                    for (let player = 1; player <= 2; player++) {
+                        const field = `set${set}_jugador${player}`;
+                        const element = document.getElementById(field);
+                        if (element) {
+                            element.textContent = '0';
+                        }
+                    }
+                }
+                // Reiniciar el cronómetro
+                clearInterval(timerInterval);
+                seconds = 0;
+                document.getElementById('match-time').textContent = 'TIEMPO DE PARTIDO: 00:00';
+            } else if (data.field) {
+                const element = document.getElementById(data.field);
+                if (element) {
+                    element.textContent = data.value;
+                }
+            }
+        };
+    </script>
+</body>
+</html>
