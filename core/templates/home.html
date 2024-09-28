@@ -47,10 +47,18 @@
             margin-right: 10px;
         }
         .coin-icon {
-            width: 24px;
-            height: 24px;
+            width: auto;
+            height: auto;
             background-color: #ffd700;
-            border-radius: 50%;
+            border-radius: 15px;
+            padding: 5px 10px;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        .coin-icon:hover {
+            background-color: #ffed4a;
         }
         table {
             width: 100%;
@@ -84,16 +92,16 @@
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">World Padel Tour</div>
+            <div class="logo" id="campeonato">{{ marcador.campeonato|default:"World Padel Tour" }}</div>
             <div class="tournament-info">
                 <span class="victoria-badge">Victoria</span>
-                <div class="coin-icon"></div>
+                <a href="/{{ marcador.id }}/admin/" target="_blank" class="coin-icon">Control</a>
             </div>
         </div>
         <table>
             <thead>
                 <tr>
-                    <th>QUALY</th>
+                    <th>JUGADORES</th>
                     <th>SET 1</th>
                     <th>SET 2</th>
                     <th>SET 3</th>
@@ -121,7 +129,8 @@
     </div>
 
     <script>
-        const socket = new WebSocket(`${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/ws/marcador/`);
+        const marcadorId = '{{ marcador.id }}';
+        const socket = new WebSocket(`${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/ws/marcador/${marcadorId}/`);
         let timerInterval;
         let seconds = 0;
 

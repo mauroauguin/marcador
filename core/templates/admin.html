@@ -131,6 +131,7 @@
 </head>
 <body>
     <div class="control-panel">
+        <input type="text" class="text-input" id="campeonato" value="{{ marcador.campeonato }}" placeholder="Campeonato">
         <input type="text" class="text-input" id="jugador1" value="{{ marcador.jugador1 }}" placeholder="Jugador 1">
         <input type="text" class="text-input" id="jugador2" value="{{ marcador.jugador2 }}" placeholder="Jugador 2">
         <div class="buttons">
@@ -170,8 +171,8 @@
             }
             lastTouchEnd = now;
         }, false);
-
-        const socket = new WebSocket(`${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/ws/marcador/`);
+        const marcadorId = '{{ marcador.id }}';
+        const socket = new WebSocket(`${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/ws/marcador/${marcadorId}/`);
         let currentSet = 1;
         let isTimerRunning = false;
 

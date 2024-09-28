@@ -1,24 +1,24 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.http import Http404
 from .models import Marcador
-from django.http import JsonResponse
 
-def admin(request):
-    marcador, created = Marcador.objects.get_or_create(pk=1)
-    return render(request, 'admin.html', {'marcador': marcador})
+def create_marcador(request):
+    new_marcador = Marcador.objects.create()
+    return redirect('view_marcador', marcador_id=new_marcador.id)
 
-def home(request):
-    marcador, created = Marcador.objects.get_or_create(pk=1)
+def view_marcador(request, marcador_id):
+    try:
+        marcador = Marcador.objects.get(id=marcador_id)
+    except Marcador.DoesNotExist:
+        raise Http404("Marcador no encontrado")
     return render(request, 'home.html', {'marcador': marcador})
 
-def actualizar_marcador(request):
-    marcador, created = Marcador.objects.get_or_create(pk=1)
-    return JsonResponse({
-        'jugador1': marcador.jugador1,
-        'jugador2': marcador.jugador2,
-        'set1_jugador1': marcador.set1_jugador1,
-        'set2_jugador1': marcador.set2_jugador1,
-        'set3_jugador1': marcador.set3_jugador1,
-        'set1_jugador2': marcador.set1_jugador2,
-        'set2_jugador2': marcador.set2_jugador2,
-        'set3_jugador2': marcador.set3_jugador2,
-    })
+def admin_marcador(request, marcador_id):
+    try:
+        marcador = Marcador.objects.get(id=marcador_id)
+    except Marcador.DoesNotExist:
+        raise Http404("Marcador no encontrado")
+    return render(request, 'admin.html', {'marcador': marcador, 'marcador_id': marcador_id})
+
+def custom_404(request, exception):
+    return render(request, '404.html', status=404)
