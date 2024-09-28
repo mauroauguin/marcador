@@ -171,7 +171,7 @@
             lastTouchEnd = now;
         }, false);
 
-        const socket = new WebSocket('ws://' + window.location.host + '/ws/marcador/');
+        const socket = new WebSocket(`${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/ws/marcador/`);
         let currentSet = 1;
         let isTimerRunning = false;
 
