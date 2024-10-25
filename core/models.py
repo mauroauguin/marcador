@@ -5,7 +5,7 @@ import uuid
 
 class Marcador(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    campeonato = models.CharField(max_length=200, default="World PingPong Tour")
+    campeonato = models.CharField(max_length=200)
     jugador1 = models.CharField(max_length=200, default="Jugador 1")
     jugador2 = models.CharField(max_length=200, default="Jugador 2")
     set1_jugador1 = models.IntegerField(default=0)

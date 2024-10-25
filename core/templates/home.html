@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>World Padel Tour Scoreboard</title>
+    <title>World Padel Tour</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,6 +13,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column; /* Cambiado a columna para apilar el iframe y el contenido */
             min-height: 100vh;
         }
         .container {
@@ -135,10 +136,17 @@
             margin: 4px 2px;
             cursor: pointer;
         }
+        /* Estilos para el iframe */
+        .youtube-iframe {
+            width: 100%; /* Ancho total */
+            height: 315px; /* Altura del iframe */
+            border: none; /* Sin borde */
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
 </head>
 <body>
+   
     <div class="container">
         <div class="header">
             <div class="logo" id="campeonato">{{ marcador.campeonato|default:"World Padel Tour" }}</div>
@@ -177,6 +185,8 @@
         </div>
     </div>
 
+    <!-- Iframe de YouTube -->
+    <iframe width="560" height="315" class="youtube-iframe" src="https://www.youtube.com/embed/GeD4h25aGaY?si=pK7SSze8gA2Vqd3y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     <div id="qrModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -258,8 +268,6 @@
                 modal.style.display = "none";
             }
         }
-
-        // ... (resto del código existente) ...
     </script>
 </body>
 </html>
