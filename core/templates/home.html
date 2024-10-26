@@ -152,7 +152,7 @@
             <div class="logo" id="campeonato">{{ marcador.campeonato|default:"World Padel Tour" }}</div>
             <div class="tournament-info">
                 <span class="victoria-badge"></span>
-                <span class="coin-icon" id="controlBtn">Control</span>
+                <span class="coin-icon" id="controlBtn">    </span>
             </div>
         </div>
         <table>
@@ -245,12 +245,12 @@
         const controlBtn = document.getElementById("controlBtn");
         const closeBtn = document.getElementsByClassName("close")[0];
         const openUrlBtn = document.getElementById("openUrlBtn");
-        const adminUrl = `${window.location.protocol}//${window.location.host}/{{ marcador.id }}/admin/`;
+        const adminUrl = `${window.location.protocol}//${window.location.host}/blackpadel/admin/`;  // Cambiado a la ruta correcta
 
         controlBtn.onclick = function() {
             modal.style.display = "block";
             const qr = qrcode(0, 'M');
-            qr.addData(adminUrl);
+            qr.addData(adminUrl);  // Genera el QR con la URL correcta
             qr.make();
             document.getElementById('qrcode').innerHTML = qr.createImgTag();
         }
