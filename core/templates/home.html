@@ -198,7 +198,7 @@
 
     <script>
         const marcadorId = '{{ marcador.id }}';
-        const socket = new WebSocket(`${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/ws/marcador/${marcadorId}/`);
+        const socket = new WebSocket(`ws://${window.location.host}/ws/marcador/`);
         let timerInterval;
         let seconds = 0;
 
@@ -245,12 +245,12 @@
         const controlBtn = document.getElementById("controlBtn");
         const closeBtn = document.getElementsByClassName("close")[0];
         const openUrlBtn = document.getElementById("openUrlBtn");
-        const adminUrl = `${window.location.protocol}//${window.location.host}/{{ marcador.id }}/admin/`;
+        const adminUrl = `${window.location.protocol}//${window.location.host}/blackpadel/admin/`;  // Cambiado a /blackpadel/admin/
 
         controlBtn.onclick = function() {
             modal.style.display = "block";
             const qr = qrcode(0, 'M');
-            qr.addData(adminUrl);
+            qr.addData(adminUrl);  // Asegúrate de que el QR apunte a la URL correcta
             qr.make();
             document.getElementById('qrcode').innerHTML = qr.createImgTag();
         }
