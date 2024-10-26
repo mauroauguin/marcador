@@ -5,7 +5,7 @@ from .models import Marcador
 
 class MarcadorConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.marcador_id = 1  # Usar un ID fijo para el único marcador
+        self.marcador_id = self.scope['url_route']['kwargs']['marcador_id']
         self.room_group_name = f'marcador_{self.marcador_id}'
 
         await self.channel_layer.group_add(
@@ -85,11 +85,8 @@ class MarcadorConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_marcador(self):
-        try:
-            return Marcador.objects.get(id=self.marcador_id)
-        except Marcador.DoesNotExist:
-            # Manejo de error: puedes crear un marcador aquí o lanzar una excepción
-            return None  # O crear uno nuevo si es necesario
+        return Marcador.objects.get(id=self.marcador_id)
+    
     
     @database_sync_to_async
     def update_marcador(self, field, value):
